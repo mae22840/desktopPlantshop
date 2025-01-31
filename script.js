@@ -6,20 +6,20 @@ function singleAddToCart(){
     console.log('Warenkorb-Zähler incremented');
 }
 
-// Back-Button Scrollposition
-const backButton = document.querySelector(".back-button");
-backButton.addEventListener("click", () => {
-    const scrollPosition = window.scrollY;
-    sessionStorage.setItem("scrollPosition", scrollPosition);
-});
-
-// Scroll-Position wiederherstellen beim Laden der Seite
-window.addEventListener("load", () => {
-    const scrollPosition = sessionStorage.getItem("scrollPosition");
-    if (scrollPosition) {
-        window.scrollTo(0, parseInt(scrollPosition, 10));
+function singleAddToCartBird(event) {
+    // Verhindert, dass das Event die Kette hinaufgeht
+    if (event) {
+        event.preventDefault(); // Standardaktion stoppen
+        event.stopPropagation(); // Ereignis-Bubbling verhindern
     }
-});
+
+    // Referenz zur Warenkorb-Summe
+    const cartCountElement = document.getElementById("cart-count");
+
+    // Warenkorb-Zähler inkrementieren
+    cartCountElement.textContent++;
+    console.log('Warenkorb-Zähler incremented');
+}
 
 // Quantity Button
 var a = 1;
