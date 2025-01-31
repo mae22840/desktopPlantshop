@@ -21,6 +21,21 @@ function singleAddToCartBird(event) {
     console.log('Warenkorb-Zähler incremented');
 }
 
+// Scroll-Position speichern beim Klicken des Back-Buttons
+const backButton = document.querySelector(".back-button");
+backButton.addEventListener("click", () => {
+    const scrollPosition = window.scrollY;
+    sessionStorage.setItem("scrollPosition", scrollPosition);
+});
+
+// Scroll-Position wiederherstellen beim Laden der Seite
+window.addEventListener("load", () => {
+    const scrollPosition = sessionStorage.getItem("scrollPosition");
+    if (scrollPosition) {
+        window.scrollTo(0, parseInt(scrollPosition, 10));
+    }
+});
+
 // Quantity Button
 var a = 1;
 
