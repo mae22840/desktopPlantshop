@@ -22,7 +22,8 @@ body {
     color: var(--text-color);
     margin-bottom: 0;
     text-align: center;
-    height: 100%;
+    min-height: 100vh;
+    overflow: visible;
     margin: 0;
 }
 
@@ -39,7 +40,7 @@ body {
 .plant-store-section {
     background-color: var(--bg-color);
     display: flex;
-    padding-bottom: 10px;
+    padding-bottom: 5px;
     flex-direction: column;
     align-items: center;
     min-height: 700px;
@@ -49,6 +50,7 @@ body {
     position: relative;
     width: 100%;
     height: 759px;
+
 }
 
 .hero-container-products {
@@ -74,31 +76,35 @@ body {
 }
 
 .nav-container {
-    position: sticky;
+    position: fixed;
     top: 0;
+    left: 0;
+    width: 100%;
     background-color: var(--bg-color);
     box-shadow: 0 4px 8px var(--shadow-color);
-    z-index: 200;
+    z-index: 10000;
+
     display: flex;
-    width: 100%;
-    align-items: center;
-    justify-content: space-between;
-    padding: 16px 16px;
+    justify-content: space-between; /* Links nach links, Icons nach rechts */
+    align-items: center; /* Vertikale Ausrichtung */
+    padding: 16px;
 }
 
 .nav-container .logo {
     position: absolute;
     left: 50%; /* Positionierung in der Mitte */
     transform: translateX(-50%);
+    height: 56px;
+    width: auto;
 }
 
 .nav-links {
     display: flex; /* Macht die Links horizontal nebeneinander */
-    gap: 40px; /* Abstand zwischen den Links */
+    gap: 30px; /* Abstand zwischen den Links */
     font-size: 16px;
     font-weight: 300;
     list-style: none;
-    margin: 0;
+    margin: 10px;
     padding: 0;
 }
 
@@ -117,16 +123,21 @@ body {
     color: var(--primary-color);
 }
 
-.logo {
-    align-items: center;
-    height: 56px;
-    width: auto;
-}
-
+/* Icons */
 .nav-icons {
     display: flex;
     gap: 16px; /* Abstand zwischen Icons */
     align-items: center; /* Vertikale Ausrichtung */
+    margin-left: auto; /* Verschiebt Icons nach rechts */
+}
+
+.nav-icons .icon,
+.nav-icons .iconCart {
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .nav-icons .icon {
@@ -668,8 +679,6 @@ body {
     white-space: nowrap; /* Verhindert den Zeilenumbruch im Text */
 }
 
-
-
 .product-view {
     display: flex;
     flex-direction: column;
@@ -679,7 +688,8 @@ body {
 .main-content {
     flex: 1;
     max-width: 1440px;
-    margin: 100px;
+    margin: 180px;
+    margin-left: 100px;
     width: 100%;
 }
 
@@ -967,4 +977,3 @@ body {
     width: 15px;
     height: 15px;
 }
-
