@@ -2,9 +2,13 @@ function singleAddToCart(){
     // Referenz zur WarenkorbSumme
     const cartCountElement = document.getElementById("cart-count");
        
-    cartCountElement.textContent++;  
+    cartCount++;
+    cartCountElement.textContent = cartCount;  
+    sessionStorage.setItem("cartCount", cartCount);
     console.log('Warenkorb-Zähler incremented');
 }
+
+let cartCount = parseInt(sessionStorage.getItem("cartCount")) || 0;
 
 function singleAddToCartBird(event) {
     // Verhindert, dass das Event die Kette hinaufgeht
@@ -17,13 +21,17 @@ function singleAddToCartBird(event) {
     const cartCountElement = document.getElementById("cart-count");
 
     // Warenkorb-Zähler inkrementieren
-    cartCountElement.textContent++;
+    cartCount++;
+    cartCountElement.textContent = cartCount;
+    sessionStorage.setItem("cartCount", cartCount);
     console.log('Warenkorb-Zähler incremented');
 }
 
 // Quantity Button
 var a = 1;
+const page = document.body.dataset.page;
 
+if (page !== "products") {
 document.addEventListener("DOMContentLoaded", () => {
     const plus = document.querySelector(".quantity-increase");
     const minus = document.querySelector(".quantity-decrease");
@@ -51,11 +59,20 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 });
 
+
+window.addEventListener("load", () => {
+    const cartCountElement = document.getElementById("cart-count");
+    if (cartCountElement) {
+      	cartCountElement.textContent = cartCount;
+    	console.log('set cartcount ${cartCount} onload others event');
+    }
+});
+
+
 // Warenkorb Icon
 document.addEventListener("DOMContentLoaded", () => {
     // Referenz zum Warenkorb-Zähler
     const cartCountElement = document.getElementById("cart-count");
-    let cartCount = 0; // Startwert des Warenkorbs
 
     // Den Button mit der Klasse "cart-button" auswählen
     const addToCartButton = document.querySelector(".cart-button");
@@ -71,54 +88,86 @@ document.addEventListener("DOMContentLoaded", () => {
         cartCount= cartCount + parseInt(a); // Zähler erhöhen
         cartCountElement.textContent = cartCount; // Zähler im DOM aktualisieren
         console.log(`Warenkorb-Zähler: ${cartCount}`); // Debugging-Ausgabe
+        sessionStorage.setItem("cartCount", cartCount);
     });
 });
+}
+else
+{
+    console.log("products erkannt.");
 
 document.addEventListener("DOMContentLoaded", () => {
-    const filterButton = document.getElementById("filter-button");
-    const filterContainer = document.querySelector(".filter-container");
-    const closeButton = document.querySelector(".close-button");
+const filterButton = document.getElementById("filter-button");
+const filterContainer = document.querySelector(".filter-container");
+const closeButton = document.querySelector(".close-button");
 
-    // Funktion zum Anzeigen des Filters
-    const showFilter = () => {
-        const buttonRect = filterButton.getBoundingClientRect();
-        filterContainer.style.position = "absolute";
-        filterContainer.style.top = `${buttonRect.bottom + window.scrollY}px`;
-        filterContainer.style.left = `${buttonRect.left + window.scrollX}px`;
-        filterContainer.style.display = "flex";
-        filterButton.style.visibility = "hidden";
-    };
+// Funktion zum Anzeigen des Filters
+const showFilter = () => {
+    const buttonRect = filterButton.getBoundingClientRect();
+    filterContainer.style.position = "absolute";
+    filterContainer.style.top = `${buttonRect.bottom + window.scrollY}px`;
+    filterContainer.style.left = `${buttonRect.left + window.scrollX}px`;
+    filterContainer.style.display = "flex";
+    filterButton.style.visibility = "hidden";
+};
 
-    // Funktion zum Verstecken des Filters
-    const hideFilter = () => {
-        filterContainer.style.display = "none";
-        filterButton.style.visibility = "visible";
-    };
+// Funktion zum Verstecken des Filters
+const hideFilter = () => {
+    filterContainer.style.display = "none";
+    filterButton.style.visibility = "visible";
+};
 
-    // Scroll-Event hinzufügen
-    window.addEventListener("scroll", () => {
-        const scrollY = window.scrollY;
-        const moveSpeed = 0; // Geschwindigkeit, wie schnell der Button mitbewegt wird
+// Scroll-Event hinzufügen
+window.addEventListener("scroll", () => {
+    const scrollY = window.scrollY;
+    const moveSpeed = 0; // Geschwindigkeit, wie schnell der Button mitbewegt wird
 
-        // Berechne die Verschiebung des Buttons basierend auf dem Scrollwert
-        const moveDistance = scrollY * moveSpeed;
+    // Berechne die Verschiebung des Buttons basierend auf dem Scrollwert
+    const moveDistance = scrollY * moveSpeed;
 
-        // Fixiere den Button relativ zum Bildschirm
-        filterButton.style.position = "fixed";
-        
-        // Setze die vertikale Position des Buttons so, dass er mit dem Scrollen mitgeht
-        const buttonOffsetTop = Math.min(moveDistance, window.innerHeight - filterButton.offsetHeight);
+    // Fixiere den Button relativ zum Bildschirm
+    filterButton.style.position = "fixed";
+    
+    // Setze die vertikale Position des Buttons so, dass er mit dem Scrollen mitgeht
+    const buttonOffsetTop = Math.min(moveDistance, window.innerHeight - filterButton.offsetHeight);
 
-        // Wenn der Button noch innerhalb des sichtbaren Bereichs ist, bleibe er sichtbar
-        filterButton.style.top = `${buttonOffsetTop}px`;
-    });
-
-    // Event Listener für den Filter-Button
-    filterButton.addEventListener("click", showFilter);
-
-    // Event Listener für den Close-Button
-    closeButton.addEventListener("click", hideFilter);
+    // Wenn der Button noch innerhalb des sichtbaren Bereichs ist, bleibe er sichtbar
+    filterButton.style.top = `${buttonOffsetTop}px`;
 });
+
+window.addEventListener("beforeunload", () => {
+	sessionStorage.setItem("scrollPosition", window.scrollY);
+    sessionStorage.setItem("cartCount", cartCount);
+    console.log("set scrollPosition: ${window.scrollY}");
+    console.log("beforeunload");
+});
+
+window.addEventListener("load", () => {
+	const scrollPosition = sessionStorage.getItem("scrollPosition");
+	if (scrollPosition !== null) {
+    	window.scrollTo(0, parseInt(scrollPosition, 10));
+    	console.log("scroll onload event");
+    }
+    const cartCountElement = document.getElementById("cart-count");
+    if (cartCountElement) {
+      	cartCountElement.textContent = cartCount;
+    	console.log('set cartcount ${cartCount} onload products event');
+    }
+});
+
+
+// Event Listener für den Filter-Button
+ const filterbutton= document.querySelector("#filterbutton");
+
+
+if (filterbutton) {
+   filterButton.addEventListener("click", showFilter);
+   }
+
+// Event Listener für den Close-Button
+closeButton.addEventListener("click", hideFilter);
+});
+
 
 // Klick auf Bird-Product zur Einzelansicht
 document.addEventListener("DOMContentLoaded", function () {
@@ -140,6 +189,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const searchInput = document.querySelector('.searchbar'); // Suchfeld
     const plantCards = document.querySelectorAll('.plant-card'); // Produktkarten
 
+ if (searchInput) {
     // Filterfunktion für die Suchleiste
     searchInput.addEventListener('input', (e) => {
         const searchText = e.target.value.toLowerCase(); // Suchtext (kleingeschrieben)
@@ -156,7 +206,10 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
+    }
 });
+
+
 
 // Filter
 document.addEventListener("DOMContentLoaded", () => {
@@ -198,6 +251,7 @@ document.addEventListener("DOMContentLoaded", () => {
     waterFilters.forEach(filter => filter.addEventListener('change', filterPlants));
 
     // Rufe initial die Filter-Logik auf
-    initializeFilters();
+    //initializeFilters();
     filterPlants();
 });
+}
